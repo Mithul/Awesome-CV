@@ -188,8 +188,8 @@
 %-------------------------------------------------------------------------------
 % Configure styles for each CV elements
 % For fundamental structures
-\newcommand*{\headerfirstnamestyle}[1]{{\fontsize{32pt}{1em}\headerfontlight\color{graytext} #1}}
-\newcommand*{\headerlastnamestyle}[1]{{\fontsize{32pt}{1em}\headerfont\bfseries\color{text} #1}}
+\newcommand*{\headerfirstnamestyle}[1]{{\fontsize{32pt}{1em}\headerfont\bfseries\color{graytext} #1}}
+\newcommand*{\headerlastnamestyle}[1]{{\fontsize{32pt}{1em}\headerfontlight\color{text} #1}}
 \newcommand*{\headerpositionstyle}[1]{{\fontsize{7.6pt}{1em}\bodyfont\scshape\color{awesome} #1}}
 \newcommand*{\headeraddressstyle}[1]{{\fontsize{8pt}{1em}\headerfont\itshape\color{lighttext} #1}}
 \newcommand*{\headersocialstyle}[1]{{\fontsize{6.8pt}{1em}\headerfont\color{text} #1}}
@@ -233,6 +233,28 @@
 \newcommand*{\letternamestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
 \newcommand*{\letterenclosurestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\slshape\color{lighttext} #1}}
 
+%%%%%%%%%%%%%%
+% Side block %
+%%%%%%%%%%%%%%
+\colorlet{headercolor}{gray}
+\RequirePackage{parskip}
+\RequirePackage[absolute,overlay]{textpos}
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{0.72cm}
+\newenvironment{aside}{%
+  \let\oldsection\section
+  \renewcommand{\section}[1]{
+    \par\vspace{\baselineskip}{\Large\headingfont\color{headercolor} ##1}
+  }
+  \begin{textblock}{3.6}(1.5, 4.33)
+  \begin{flushright}
+  \obeycr
+}{%
+  \restorecr
+  \end{flushright}
+  \end{textblock}
+  \let\section\oldsection
+}
 
 %-------------------------------------------------------------------------------
 %                Commands for personal information
@@ -268,6 +290,7 @@
 % Define writer's address
 % Usage: \address{<address>}
 \newcommand*{\address}[1]{\def\@address{#1}}
+\newcommand*{\sideaddress}[1]{\headeraddressstyle{#1}}
 
 % Define writer's position
 % Usage: \name{<position>}
@@ -276,10 +299,12 @@
 % Defines writer's mobile (optional)
 % Usage: \mobile{<mobile number>}
 \newcommand*{\mobile}[1]{\def\@mobile{#1}}
+\newcommand*{\sidemobile}[1]{\headeraddressstyle{#1}}
 
 % Defines writer's email (optional)
 % Usage: \email{<email adress>}
 \newcommand*{\email}[1]{\def\@email{#1}}
+\newcommand*{\sideemail}[1]{\headeraddressstyle{#1}}
 
 % Defines writer's homepage (optional)
 % Usage: \homepage{<url>}
@@ -458,7 +483,7 @@
         {}%
         {%
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
-          \href{https://github.com/\@github}{\faGithubSquare\acvHeaderIconSep\@github}%
+          \href{https://github.com/\@github}{\faGithub\acvHeaderIconSep\@github}%
         }%
       \ifthenelse{\isundefined{\@gitlab}}%
         {}%
@@ -562,19 +587,48 @@
 }{%
   \end{center}
 }
+
+% Define an entry of cv side information
+% Usage: \cvsideentry{<title>}{<description>}
+\newcommand*{\cvsideentry}[2]{%
+  % \setlength\tabcolsep{0pt}
+  % \setlength{\extrarowheight}{0pt}
+  % \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+  \ifempty{#1}
+  {}
+  {\begin{flushright}
+    \entrytitlestyle{#1}
+  \end{flushright}
+  \vspace{-2.0mm}}
+    % \newline
+    \descriptionstyle{#2}
+  % \end{tabular*}%
+}
+
 % Define an entry of cv information
 % Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
 \newcommand*{\cventry}[5]{%
   \vspace{-2.0mm}
   \setlength\tabcolsep{0pt}
   \setlength{\extrarowheight}{0pt}
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
-    \ifempty{#2#3}
-      {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-      {\entrytitlestyle{#2} & \entrylocationstyle{#3} \\
-      \entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-    \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
-  \end{tabular*}%
+  \ifempty{#3#4}{
+    \begin{flushleft}
+    \entrytitlestyle{#2}
+    \entrypositionstyle{#1}
+    \vspace{2.0mm}
+    \descriptionstyle{#5}
+    \end{flushleft}
+  }{
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+      \ifempty{#2#3}
+        {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
+        {
+          \entrytitlestyle{#2} & \entrylocationstyle{#3} \\
+          \entrypositionstyle{#1} & \entrydatestyle{#4} \\
+        }
+      \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
+    \end{tabular*}%
+  }
 }
 
 % Define an environment for cvsubentry

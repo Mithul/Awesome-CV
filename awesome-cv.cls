@@ -48,6 +48,8 @@
 %-------------------------------------------------------------------------------
 % Needed to make fixed length table
 \RequirePackage{array}
+% To align education section for some reason <-----------
+\RequirePackage{changepage}
 % Needed to handle list environment
 \RequirePackage{enumitem}
 % Needed to handle text alignment
@@ -558,6 +560,7 @@
   \vspace{\acvSectionTopSkip}
   \sectionstyle{#1}
   \phantomsection
+  \vspace{-1mm}
   \color{gray}\vhrulefill{0.9pt}
 }
 
@@ -612,15 +615,30 @@
   \setlength\tabcolsep{0pt}
   \setlength{\extrarowheight}{0pt}
   \ifempty{#3#4}{
-    \begin{flushleft}
-    \entrytitlestyle{#2}
-    \newline
-    \entrypositionstyle{#1}
-    \vspace{2.0mm}
-    \descriptionstyle{#5}
-    \end{flushleft}
+    \ifempty{#1}
+    {
+      \begin{flushleft}
+      \ifempty{#2}{
+        \vspace{2.0mm}
+      }{
+        \entrytitlestyle{#2}
+      }
+      \descriptionstyle{#5}
+      \end{flushleft}
+    }{
+      \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.0cm} R{4.0cm}}
+        % \ifempty{#2#3}
+          % {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
+          % {
+            % \vspace{-2.0mm}
+            \entrytitlestyle{#2} & \entrylocationstyle{#1} \\
+            % \entrypositionstyle{#1} & \entrydatestyle{#4} \\
+          % }
+        \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
+      \end{tabular*}
+    }
   }{
-    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.0cm} R{4.0cm}}
       \ifempty{#2#3}
         {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
         {

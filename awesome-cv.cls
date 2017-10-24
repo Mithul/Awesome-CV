@@ -623,6 +623,7 @@
       \ifempty{#2#3}
         {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
         {
+          \vspace{-2.0mm}
           \entrytitlestyle{#2} & \entrylocationstyle{#3} \\
           \entrypositionstyle{#1} & \entrydatestyle{#4} \\
         }

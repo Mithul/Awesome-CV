@@ -614,6 +614,7 @@
   \ifempty{#3#4}{
     \begin{flushleft}
     \entrytitlestyle{#2}
+    \newline
     \entrypositionstyle{#1}
     \vspace{2.0mm}
     \descriptionstyle{#5}

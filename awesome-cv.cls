@@ -587,8 +587,10 @@
 \newenvironment{cventries}{%
   \vspace{\acvSectionContentTopSkip}
   \begin{center}
+  \vspace{-1.0mm}
 }{%
   \end{center}
+  \vspace{-3.0mm}
 }
 
 % Define an entry of cv side information
@@ -611,44 +613,49 @@
 % Define an entry of cv information
 % Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
 \newcommand*{\cventry}[5]{%
-  \vspace{-2.0mm}
-  \setlength\tabcolsep{0pt}
-  \setlength{\extrarowheight}{0pt}
-  \ifempty{#3#4}{
-    \ifempty{#1}
-    {
-      \begin{flushleft}
-      \ifempty{#2}{
-        \vspace{2.0mm}
+  \begin{adjustwidth}{0mm}{0mm}
+    \vspace{-2.0mm}
+    \setlength\tabcolsep{0pt}
+    \setlength{\extrarowheight}{0pt}
+    \ifempty{#3#4}{
+      \ifempty{#1}
+      {
+        \begin{flushleft}
+        \ifempty{#2}{
+          \vspace{5.0mm}
+          \descriptionstyle{#5}
+          \vspace{5.0mm}
+        }{
+          \entrytitlestyle{#2}
+          \vspace{2.0mm}
+          \descriptionstyle{#5}
+          \vspace{5.0mm}
+        }
+        \end{flushleft}
       }{
-        \entrytitlestyle{#2}
+        % \vspace{.0mm}
+        \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.0cm} R{4.0cm}}
+          \entrytitlestyle{#2} & \entrylocationstyle{#1} \\
+          \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
+        \end{tabular*}
       }
-      \descriptionstyle{#5}
-      \end{flushleft}
     }{
       \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.0cm} R{4.0cm}}
-        % \ifempty{#2#3}
-          % {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-          % {
-            % \vspace{-2.0mm}
-            \entrytitlestyle{#2} & \entrylocationstyle{#1} \\
-            % \entrypositionstyle{#1} & \entrydatestyle{#4} \\
-          % }
-        \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
-      \end{tabular*}
-    }
-  }{
-    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.0cm} R{4.0cm}}
-      \ifempty{#2#3}
-        {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-        {
-          \vspace{-2.0mm}
-          \entrytitlestyle{#2} & \entrylocationstyle{#3} \\
-          \hspace{1mm}\entrypositionstyle{#1} & \entrydatestyle{#4} \\
+        \ifempty{#2#3}
+          {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
+          {
+            \vspace{-2.0mm}
+            \entrytitlestyle{#2} & \entrylocationstyle{#3} \\
+            \hspace{1mm}\entrypositionstyle{#1} & \entrydatestyle{#4}
+          }
+        \ifempty{#5}
+        {}
+        {\\
+          \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
         }
-      \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
-    \end{tabular*}%
-  }
+      \end{tabular*}%
+    }
+  \end{adjustwidth}
 }
 
 % Define an environment for cvsubentry
@@ -671,7 +678,7 @@
       {\subentrypositionstyle{#1} & \subentrydatestyle{#3} \\}
     \ifthenelse{\equal{#4}{}}
       {}
-      {\multicolumn{2}{L{17.0cm}}{\subdescriptionstyle{#4}} \\}
+      {\multicolumn{2}{L{17.0cm}}{\subdescriptionstyle{#4}} }
   \end{tabular*}
 }
 

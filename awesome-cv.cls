@@ -644,7 +644,7 @@
         {
           \vspace{-2.0mm}
           \entrytitlestyle{#2} & \entrylocationstyle{#3} \\
-          \entrypositionstyle{#1} & \entrydatestyle{#4} \\
+          \hspace{1mm}\entrypositionstyle{#1} & \entrydatestyle{#4} \\
         }
       \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}
     \end{tabular*}%

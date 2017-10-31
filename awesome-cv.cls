@@ -83,7 +83,7 @@
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
 % Needed to deal hyperlink
-\RequirePackage[hidelinks,unicode]{hyperref}
+\RequirePackage[hidelinks,unicode,bookmarks]{hyperref}
 \hypersetup{%
   pdftitle={},
   pdfauthor={},
@@ -235,28 +235,6 @@
 \newcommand*{\letternamestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
 \newcommand*{\letterenclosurestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\slshape\color{lighttext} #1}}
 
-%%%%%%%%%%%%%%
-% Side block %
-%%%%%%%%%%%%%%
-\colorlet{headercolor}{gray}
-\RequirePackage{parskip}
-\RequirePackage[absolute,overlay]{textpos}
-\setlength{\TPHorizModule}{1cm}
-\setlength{\TPVertModule}{0.72cm}
-\newenvironment{aside}{%
-  \let\oldsection\section
-  \renewcommand{\section}[1]{
-    \par\vspace{\baselineskip}{\Large\headingfont\color{headercolor} ##1}
-  }
-  \begin{textblock}{3.6}(1.5, 4.33)
-  \begin{flushright}
-  \obeycr
-}{%
-  \restorecr
-  \end{flushright}
-  \end{textblock}
-  \let\section\oldsection
-}
 
 %-------------------------------------------------------------------------------
 %                Commands for personal information
@@ -554,14 +532,21 @@
   \fancyfoot[R]{\footerstyle{#3}}
 }
 
+% \renewcommand{\section}[1]{\sectionstyle{#1}}
 % Define a section for CV
 % Usage: \cvsection{<section-title>}
+\RequirePackage[explicit]{titlesec}
+\def\@seccntformat#1{}
+\titleformat{\section}{}{}{0pt}{\sectionstyle{#1}~\color{gray}\vhrulefill{0.9pt}}
+% \titleformat{\section}{}{}{0pt}{\noindent\sectionstyle}[\vhrulefill{0.9pt}]
 \newcommand{\cvsection}[1]{%
   \vspace{\acvSectionTopSkip}
-  \sectionstyle{#1}
+  % \pdfbookmark{Test}{Contents}
+  \vspace{-8mm}
+  \section{#1}
   \phantomsection
-  \vspace{-1mm}
-  \color{gray}\vhrulefill{0.9pt}
+  \vspace{-5mm}
+  % \color{gray}\vhrulefill{0.9pt}
 }
 
 % Define a subsection for CV
@@ -614,10 +599,10 @@
 % Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
 \newcommand*{\cventry}[5]{%
   \begin{adjustwidth}{0mm}{0mm}
-    \vspace{-2.0mm}
     \setlength\tabcolsep{0pt}
     \setlength{\extrarowheight}{0pt}
     \ifempty{#3#4}{
+      \vspace{-1.0mm}
       \ifempty{#1}
       {
         \begin{flushleft}
@@ -640,6 +625,7 @@
         \end{tabular*}
       }
     }{
+      \vspace{-2.0mm}
       \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.0cm} R{4.0cm}}
         \ifempty{#2#3}
           {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}

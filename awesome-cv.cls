@@ -436,9 +436,9 @@
   \begin{minipage}[c]{\headertextwidth}
     \ifthenelse{\equal{#1}{L}}{
       \begin{tabular}{l r}
-          \headerfirstnamestyle{\@firstname}\headerlastnamestyle{{}\acvHeaderNameDelim\@lastname} & \headeraddressstyle{\@address} \\
-          \ifthenelse{\isundefined{\@position}}{}{\headerpositionstyle{\@position}} & \headersocialstyle{%
-            \newbool{isstart}%
+        \hspace{-3mm}\headerfirstnamestyle{\@firstname}\headerlastnamestyle{{}\acvHeaderNameDelim\@lastname} & \hspace{13mm}\headeraddressstyle{\@address} \\
+        \ifthenelse{\isundefined{\@position}}{}{\hspace{-2.3mm}\headerpositionstyle{\@position}} & \headersocialstyle{%
+        \newbool{isstart}%
             \setbool{isstart}{true}%
             \ifthenelse{\isundefined{\@mobile}}%
               {}%

@@ -222,7 +222,8 @@
 \newcommand*{\honorlocationstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\slshape\color{awesome} #1}}
 
 % For elements of skill
-\newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
+\newcommand*{\skilltypestyle}[1]{{\fontsize{10pt}{1em}\bodyfont\bfseries
+\vspace{-1.0mm}\color{darktext} #1}}
 \newcommand*{\skillsetstyle}[1]{{\fontsize{9pt}{1em}\bodyfontlight\color{text} #1}}
 
 % For elements of the cover letter
@@ -435,9 +436,9 @@
   \begin{minipage}[c]{\headertextwidth}
     \ifthenelse{\equal{#1}{L}}{
       \begin{tabular}{l r}
-          \headerfirstnamestyle{\@firstname}\headerlastnamestyle{{}\acvHeaderNameDelim\@lastname} & \headeraddressstyle{\@address} \\
-          \ifthenelse{\isundefined{\@position}}{}{\headerpositionstyle{\@position}} & \headersocialstyle{%
-            \newbool{isstart}%
+        \hspace{-3mm}\headerfirstnamestyle{\@firstname}\headerlastnamestyle{{}\acvHeaderNameDelim\@lastname} & \hspace{13mm}\headeraddressstyle{\@address} \\
+        \ifthenelse{\isundefined{\@position}}{}{\hspace{-2.3mm}\headerpositionstyle{\@position}} & \headersocialstyle{%
+        \newbool{isstart}%
             \setbool{isstart}{true}%
             \ifthenelse{\isundefined{\@mobile}}%
               {}%
@@ -686,6 +687,7 @@
         }
       \end{tabular*}%
     }
+    \vspace{-1.0mm}
   \end{adjustwidth}
 }
 
